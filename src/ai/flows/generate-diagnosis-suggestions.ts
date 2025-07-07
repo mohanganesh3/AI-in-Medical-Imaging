@@ -74,7 +74,7 @@ const generateDiagnosisSuggestionsFlow = ai.defineFlow(
         prompt: [
           {media: {url: input.photoDataUri}},
           {
-            text: `Based on the provided medical image, create a new image that highlights the areas related to these findings: ${abnormalities}. Use a transparent red overlay to create a heatmap effect on the identified regions. The original image should be clearly visible underneath the heatmap.`,
+            text: `Based on the provided medical image, create a new image that acts as a heatmap highlighting the areas related to these findings: ${abnormalities}. You MUST use a multi-color transparent overlay. Each distinct abnormality or area of concern should be highlighted with a different, vibrant color to be easily distinguishable. For example, you could use colors like yellow, orange, and red to signify areas of increasing concern. The original image must be clearly visible underneath the transparent heatmap overlay.`,
           },
         ],
         config: {
