@@ -51,8 +51,6 @@ export default function ResultsPanel({
     return <EmptyState />;
   }
 
-  const topSuggestion = scanResult.results.suggestions[0];
-
   return (
     <Card className="h-full overflow-hidden">
       <CardHeader className="flex-row items-center justify-between">
@@ -73,15 +71,6 @@ export default function ResultsPanel({
             className="rounded-lg"
             data-ai-hint="medical x-ray"
           />
-          {topSuggestion && (
-            <Image
-              src={topSuggestion.heatmapDataUri}
-              alt="Diagnosis Heatmap"
-              layout="fill"
-              objectFit="cover"
-              className="rounded-lg opacity-50 mix-blend-multiply"
-            />
-          )}
         </div>
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Diagnostic Suggestions</h3>

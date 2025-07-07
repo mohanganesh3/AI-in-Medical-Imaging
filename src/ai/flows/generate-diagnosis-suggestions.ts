@@ -28,7 +28,6 @@ const DiagnosisSuggestionSchema = z.object({
   diagnosis: z.string().describe('The diagnostic suggestion.'),
   confidence: z.number().describe('The confidence level (0-1) for the suggestion.'),
   abnormalityLocation: z.string().describe('Description of the location of the abnormality.'),
-  heatmapDataUri: z.string().describe("A data URI containing the heatmap overlay image, that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."),
 });
 
 const GenerateDiagnosisSuggestionsOutputSchema = z.object({
@@ -48,7 +47,7 @@ const generateDiagnosisSuggestionsPrompt = ai.definePrompt({
   name: 'generateDiagnosisSuggestionsPrompt',
   input: {schema: GenerateDiagnosisSuggestionsInputSchema},
   output: {schema: GenerateDiagnosisSuggestionsOutputSchema},
-  prompt: `You are an AI assistant for radiologists. Analyze the medical image provided and generate diagnostic suggestions with confidence percentages and visual highlighting of potential abnormalities.
+  prompt: `You are an AI assistant for radiologists. Analyze the medical image provided and generate diagnostic suggestions with confidence percentages.
 
 Image: {{media url=photoDataUri}}
 
@@ -58,14 +57,12 @@ Provide the output in the following JSON format:
     {
       "diagnosis": "Diagnosis suggestion 1",
       "confidence": 0.85,
-      "abnormalityLocation": "Location of abnormality 1",
-      "heatmapDataUri": "data:<mimetype>;base64,<encoded_data>"
+      "abnormalityLocation": "Location of abnormality 1"
     },
     {
       "diagnosis": "Diagnosis suggestion 2",
       "confidence": 0.70,
-      "abnormalityLocation": "Location of abnormality 2",
-      "heatmapDataUri": "data:<mimetype>;base64,<encoded_data>"
+      "abnormalityLocation": "Location of abnormality 2"
     }
   ]
 }`,
