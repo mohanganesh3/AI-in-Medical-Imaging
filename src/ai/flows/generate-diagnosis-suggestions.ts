@@ -1,4 +1,4 @@
-// 'use server';
+'use server';
 
 /**
  * @fileOverview AI-powered diagnostic suggestions flow for medical images.
@@ -7,8 +7,6 @@
  * - GenerateDiagnosisSuggestionsInput - The input type for the generateDiagnosisSuggestions function.
  * - GenerateDiagnosisSuggestionsOutput - The return type for the generateDiagnosisSuggestions function.
  */
-
-'use server';
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
@@ -32,6 +30,7 @@ const DiagnosisSuggestionSchema = z.object({
 
 const GenerateDiagnosisSuggestionsOutputSchema = z.object({
   suggestions: z.array(DiagnosisSuggestionSchema).describe('An array of diagnostic suggestions.'),
+  heatmapImage: z.string().optional().describe("A data URI of the heatmap image highlighting abnormalities. Expected format: 'data:image/...;base64,<encoded_data>'."),
 });
 export type GenerateDiagnosisSuggestionsOutput = z.infer<
   typeof GenerateDiagnosisSuggestionsOutputSchema
@@ -46,26 +45,10 @@ export async function generateDiagnosisSuggestions(
 const generateDiagnosisSuggestionsPrompt = ai.definePrompt({
   name: 'generateDiagnosisSuggestionsPrompt',
   input: {schema: GenerateDiagnosisSuggestionsInputSchema},
-  output: {schema: GenerateDiagnosisSuggestionsOutputSchema},
-  prompt: `You are an AI assistant for radiologists. Analyze the medical image provided and generate diagnostic suggestions with confidence percentages.
+  output: {schema: z.object({suggestions: z.array(DiagnosisSuggestionSchema)})},
+  prompt: `You are an AI assistant for radiologists. Analyze the medical image provided and generate diagnostic suggestions. If no abnormalities are found, return an empty suggestions array.
 
-Image: {{media url=photoDataUri}}
-
-Provide the output in the following JSON format:
-{
-  "suggestions": [
-    {
-      "diagnosis": "Diagnosis suggestion 1",
-      "confidence": 0.85,
-      "abnormalityLocation": "Location of abnormality 1"
-    },
-    {
-      "diagnosis": "Diagnosis suggestion 2",
-      "confidence": 0.70,
-      "abnormalityLocation": "Location of abnormality 2"
-    }
-  ]
-}`,
+Image: {{media url=photoDataUri}}`,
 });
 
 const generateDiagnosisSuggestionsFlow = ai.defineFlow(
@@ -75,7 +58,40 @@ const generateDiagnosisSuggestionsFlow = ai.defineFlow(
     outputSchema: GenerateDiagnosisSuggestionsOutputSchema,
   },
   async input => {
-    const {output} = await generateDiagnosisSuggestionsPrompt(input);
-    return output!;
+    const {output: diagnosisOutput} = await generateDiagnosisSuggestionsPrompt(input);
+    
+    if (!diagnosisOutput || diagnosisOutput.suggestions.length === 0) {
+      return {suggestions: []};
+    }
+
+    const abnormalities = diagnosisOutput.suggestions
+      .map(s => `${s.diagnosis} at ${s.abnormalityLocation}`)
+      .join(', ');
+
+    try {
+      const {media} = await ai.generate({
+        model: 'googleai/gemini-2.0-flash-preview-image-generation',
+        prompt: [
+          {media: {url: input.photoDataUri}},
+          {
+            text: `Based on the provided medical image, create a new image that highlights the areas related to these findings: ${abnormalities}. Use a transparent red overlay to create a heatmap effect on the identified regions. The original image should be clearly visible underneath the heatmap.`,
+          },
+        ],
+        config: {
+          responseModalities: ['TEXT', 'IMAGE'],
+        },
+      });
+
+      return {
+        suggestions: diagnosisOutput.suggestions,
+        heatmapImage: media?.url,
+      };
+    } catch (error) {
+      console.error('Heatmap generation failed:', error);
+      // If heatmap fails, return suggestions only.
+      return {
+        suggestions: diagnosisOutput.suggestions,
+      };
+    }
   }
 );

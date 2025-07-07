@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import type { ScanResult } from "@/lib/types";
 import DiagnosisCard from "./diagnosis-card";
 import { FileScan, BrainCircuit } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface ResultsPanelProps {
   scanResult: ScanResult | null;
@@ -51,6 +52,8 @@ export default function ResultsPanel({
     return <EmptyState />;
   }
 
+  const hasHeatmap = !!scanResult.results.heatmapImage;
+
   return (
     <Card className="h-full overflow-hidden">
       <CardHeader className="flex-row items-center justify-between">
@@ -62,16 +65,47 @@ export default function ResultsPanel({
         </span>
       </CardHeader>
       <CardContent className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="relative aspect-square w-full max-w-full overflow-hidden rounded-lg border">
-          <Image
-            src={scanResult.originalImage}
-            alt="Medical Scan"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-lg"
-            data-ai-hint="medical x-ray"
-          />
-        </div>
+        {hasHeatmap ? (
+          <Tabs defaultValue="original" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="original">Original Scan</TabsTrigger>
+              <TabsTrigger value="heatmap">Heatmap Analysis</TabsTrigger>
+            </TabsList>
+            <TabsContent value="original" className="mt-4">
+              <div className="relative aspect-square w-full max-w-full overflow-hidden rounded-lg border">
+                <Image
+                  src={scanResult.originalImage}
+                  alt="Medical Scan"
+                  fill
+                  className="rounded-lg object-cover"
+                  data-ai-hint="medical x-ray"
+                />
+              </div>
+            </TabsContent>
+            <TabsContent value="heatmap" className="mt-4">
+              <div className="relative aspect-square w-full max-w-full overflow-hidden rounded-lg border">
+                <Image
+                  src={scanResult.results.heatmapImage!}
+                  alt="Medical Scan with Heatmap"
+                  fill
+                  className="rounded-lg object-cover"
+                  data-ai-hint="medical x-ray heatmap"
+                />
+              </div>
+            </TabsContent>
+          </Tabs>
+        ) : (
+          <div className="relative aspect-square w-full max-w-full overflow-hidden rounded-lg border">
+            <Image
+              src={scanResult.originalImage}
+              alt="Medical Scan"
+              fill
+              className="rounded-lg object-cover"
+              data-ai-hint="medical x-ray"
+            />
+          </div>
+        )}
+
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Diagnostic Suggestions</h3>
           {scanResult.results.suggestions.length > 0 ? (
