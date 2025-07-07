@@ -1,3 +1,9 @@
+import ClarityScanApp from "@/components/clarity-scan-app";
+
 export default function Home() {
-  return <></>;
+  return (
+    <main>
+      <ClarityScanApp />
+    </main>
+  );
 }
