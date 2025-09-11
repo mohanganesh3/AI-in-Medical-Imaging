@@ -22,7 +22,9 @@ Picture this: A radiologist analyzing hundreds of scans daily, eyes straining to
 <td width="45%">
 <div align="center">
 <h4>📸 Original Scan</h4>
-<img src="https://github.com/mohanganesh3/AI-in-Medical-Imaging/blob/main/demo/brain-mri-original.png" alt="Raw brain MRI scan" width="100%"/>
+
+<img width="388" height="391" alt="brain-mri-original" src="https://github.com/user-attachments/assets/0796c26e-03d7-41e0-8103-941eedb1db30" />
+
 <em>Raw medical data waiting to tell its story...</em>
 </div>
 </td>
@@ -36,7 +38,9 @@ Picture this: A radiologist analyzing hundreds of scans daily, eyes straining to
 <td width="45%">
 <div align="center">
 <h4>🎯 AI Highlights Abnormalities</h4>
-<img src="https://github.com/mohanganesh3/AI-in-Medical-Imaging/blob/main/demo/brain-mri-highlighted.png" alt="AI-analyzed brain MRI with microbleeds highlighted" width="100%"/>
+
+![brain-mri-highlighted](https://github.com/user-attachments/assets/af0dc405-07b1-406d-9df1-1a3c3347198e)
+
 <em><strong>Cerebral Microbleeds Detected!</strong><br/>Confidence: 80% | Location: Cerebral Cortex</em>
 </div>
 </td>
@@ -54,7 +58,8 @@ Picture this: A radiologist analyzing hundreds of scans daily, eyes straining to
 <td width="45%">
 <div align="center">
 <h4>📋 Standard X-Ray</h4>
-<img src="https://github.com/mohanganesh3/AI-in-Medical-Imaging/blob/main/demo/chest-xray-original.png" alt="Chest X-ray original" width="100%"/>
+<img width="390" height="390" alt="chest-xray-original" src="https://github.com/user-attachments/assets/f51b1afa-3efb-4ac3-927c-8fd71ce4c1d2" />
+
 <em>What the human eye sees...</em>
 </div>
 </td>
@@ -68,7 +73,10 @@ Picture this: A radiologist analyzing hundreds of scans daily, eyes straining to
 <td width="45%">
 <div align="center">
 <h4>🚨 AI Reveals Hidden Patterns</h4>
-<img src="https://github.com/mohanganesh3/AI-in-Medical-Imaging/blob/main/demo/chest-xray-highlighted.png" alt="AI-analyzed chest X-ray showing pneumonia" width="100%"/>
+
+![chest-xray-highlighted](https://github.com/user-attachments/assets/aa7a42b0-13aa-4f8a-995e-29aaefaa50a1)
+
+
 <em><strong>Multiple Conditions Detected!</strong><br/>
 🟥 Pneumonia: 80% confidence<br/>
 🟨 Tuberculosis markers: 60% confidence</em>
@@ -88,7 +96,8 @@ Picture this: A radiologist analyzing hundreds of scans daily, eyes straining to
 <td width="45%">
 <div align="center">
 <h4>📸 Original Ultrasound</h4>
-<img src="https://github.com/mohanganesh3/AI-in-Medical-Imaging/blob/main/demo/kidney-ultrasound-original.png" alt="Raw kidney ultrasound scan" width="100%"/>
+<img width="386" height="386" alt="kidney-ultrasound-original" src="https://github.com/user-attachments/assets/6acd0fa8-b8a8-45cc-bd66-ba67912531bc" />
+
 <em>Raw ultrasound data showing kidney structure...</em>
 </div>
 </td>
@@ -102,7 +111,10 @@ Picture this: A radiologist analyzing hundreds of scans daily, eyes straining to
 <td width="45%">
 <div align="center">
 <h4>🎯 AI Highlights Stone Formation</h4>
-<img src="https://github.com/mohanganesh3/AI-in-Medical-Imaging/blob/main/demo/kidney-ultrasound-highlighted.png" alt="AI-analyzed kidney ultrasound with kidney stone highlighted" width="100%"/>
+
+![kidney-ultrasound-highlighted](https://github.com/user-attachments/assets/6c2e0083-4771-4179-91db-cfb16944c7e2)
+
+
 <em><strong>Kidney Stone Detected!</strong><br/>Confidence: 80% | Location: Right Kidney</em>
 </div>
 </td>
